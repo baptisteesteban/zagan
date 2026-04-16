@@ -6,4 +6,4 @@ function(zagan_add_test name)
     add_test(NAME test_${name} COMMAND test_${name})
 endfunction()
 
-zagan_add_test(image2d)
+add_subdirectory(core)

@@ -1,0 +1,1 @@
+zagan_add_test(image2d)

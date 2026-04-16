@@ -1,4 +1,4 @@
-#include <zagan/image2d.hpp>
+#include <zagan/core/image/image2d.hpp>
 
 #include <gtest/gtest.h>
 
