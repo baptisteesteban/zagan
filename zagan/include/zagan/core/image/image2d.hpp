@@ -20,6 +20,9 @@ namespace zagan
     int width() const noexcept;
     int height() const noexcept;
 
+    T*       buffer() noexcept;
+    const T* buffer() const noexcept;
+
     T&       operator()(int x, int y) noexcept;
     const T& operator()(int x, int y) const noexcept;
 
@@ -93,6 +96,18 @@ namespace zagan
   inline int image2d<T>::height() const noexcept
   {
     return m_height;
+  }
+
+  template <typename T>
+  inline T* image2d<T>::buffer() noexcept
+  {
+    return m_data.get();
+  }
+
+  template <typename T>
+  inline const T* image2d<T>::buffer() const noexcept
+  {
+    return m_data.get();
   }
 
   template <typename T>
