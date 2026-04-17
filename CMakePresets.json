@@ -11,6 +11,16 @@
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "ZAGAN_BUILD_TESTS": "ON"
             }
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "Release configuration of the Zagan library",
+            "binaryDir": "build/Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "ZAGAN_BUILD_TESTS": "OFF"
+            }
         }
     ],
     "buildPresets": [
@@ -19,6 +29,12 @@
             "displayName": "Debug",
             "description": "Debug build of the Zagan library",
             "configurePreset": "debug"
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "Release build of the Zagan library",
+            "configurePreset": "release"
         }
     ],
     "testPresets": [
