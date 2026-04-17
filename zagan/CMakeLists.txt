@@ -6,4 +6,4 @@ target_include_directories(zagan-core INTERFACE
 )
 target_compile_features(zagan-core INTERFACE cxx_std_23)
 
-install(DIRECTORY include DESTINATION .)
+install(DIRECTORY include/zagan DESTINATION include)
