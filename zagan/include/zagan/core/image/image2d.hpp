@@ -1,5 +1,7 @@
 #pragma once
 
+#include <zagan/core/points/point2d.hpp>
+
 #include <cassert>
 #include <memory>
 #include <utility>
@@ -9,6 +11,9 @@ namespace zagan
   template <typename T>
   class image2d
   {
+  public:
+    using point_t = point2d;
+
   public:
     image2d() noexcept;
     image2d(int width, int height);
@@ -25,6 +30,9 @@ namespace zagan
 
     T&       operator()(int x, int y) noexcept;
     const T& operator()(int x, int y) const noexcept;
+
+    T&       operator()(const point_t&) noexcept;
+    const T& operator()(const point_t&) const noexcept;
 
   private:
     std::shared_ptr<T[]> m_data;
@@ -122,5 +130,17 @@ namespace zagan
   {
     assert(x >= 0 && y >= 0 && x < m_width && y < m_height);
     return m_data[y * m_width + x];
+  }
+
+  template <typename T>
+  inline T& image2d<T>::operator()(const typename image2d<T>::point_t& p) noexcept
+  {
+    return this->operator()(p[0], p[1]);
+  }
+
+  template <typename T>
+  inline const T& image2d<T>::operator()(const typename image2d<T>::point_t& p) const noexcept
+  {
+    return this->operator()(p[0], p[1]);
   }
 } // namespace zagan
