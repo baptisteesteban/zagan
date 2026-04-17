@@ -10,7 +10,11 @@
     };
   };
 
-  outputs = {self, nixpkgs, ...}: let
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
     stdenv = pkgs.stdenv;
@@ -20,7 +24,7 @@
       version = "dev";
 
       src = ./.;
-      nativeBuildInputs = with pkgs; [ cmake gnumake gcc ninja ];
+      nativeBuildInputs = with pkgs; [cmake gnumake gcc ninja];
 
       configurePhase = ''
         cmake --preset release --install-prefix=$out
@@ -32,7 +36,6 @@
         mkdir $out
         cmake --install build/Release
       '';
-
     };
 
     devShell.${system} = pkgs.mkShell {
