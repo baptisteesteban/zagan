@@ -1,5 +1,6 @@
 #pragma once
 
+#include "zagan/core/domains/box2d.hpp"
 #include <zagan/core/points/point2d.hpp>
 
 #include <cassert>
@@ -12,7 +13,8 @@ namespace zagan
   class image2d
   {
   public:
-    using point_t = point2d;
+    using domain_t = box2d;
+    using point_t  = domain_t::point_t;
 
   public:
     image2d() noexcept;
@@ -24,6 +26,8 @@ namespace zagan
 
     int width() const noexcept;
     int height() const noexcept;
+
+    domain_t domain() const noexcept;
 
     T*       buffer() noexcept;
     const T* buffer() const noexcept;
@@ -104,6 +108,12 @@ namespace zagan
   inline int image2d<T>::height() const noexcept
   {
     return m_height;
+  }
+
+  template <typename T>
+  typename image2d<T>::domain_t image2d<T>::domain() const noexcept
+  {
+    return domain_t{static_cast<std::size_t>(m_width), static_cast<std::size_t>(m_height)};
   }
 
   template <typename T>

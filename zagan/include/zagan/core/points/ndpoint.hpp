@@ -4,94 +4,116 @@
 #include <cstring>
 namespace zagan
 {
-  template <unsigned N, typename T>
+  template <std::size_t N, typename T>
   class ndpoint
   {
   public:
-    ndpoint() noexcept;
-    ndpoint(T x) noexcept
+    constexpr ndpoint() noexcept;
+    constexpr ndpoint(T x) noexcept
       requires(N == 1);
-    ndpoint(T x, T y) noexcept
+    constexpr ndpoint(T x, T y) noexcept
       requires(N == 2);
-    ndpoint(const ndpoint&) noexcept;
-    ndpoint& operator=(const ndpoint&) noexcept;
+    constexpr ndpoint(const ndpoint&) noexcept;
+    constexpr ndpoint& operator=(const ndpoint&) noexcept;
 
-    const T& x() const noexcept;
-    const T& y() const noexcept
+    constexpr const T& x() const noexcept;
+    constexpr const T& y() const noexcept
       requires(N >= 2);
 
-    T&       operator[](unsigned i) noexcept;
-    const T& operator[](unsigned i) const noexcept;
+    constexpr T&       operator[](std::size_t i) noexcept;
+    constexpr const T& operator[](std::size_t i) const noexcept;
 
   public:
-    static constexpr unsigned ndim() noexcept { return N; };
+    static constexpr std::size_t ndim() noexcept { return N; };
 
   private:
     int m_values[N];
   };
 
+  template <std::size_t N, typename T>
+  constexpr bool operator==(const ndpoint<N, T>& p, const ndpoint<N, T>& q) noexcept;
+
+  template <std::size_t N, typename T>
+  constexpr bool operator!=(const ndpoint<N, T>& p, const ndpoint<N, T>& q) noexcept;
+
   /*
    * Implementation
    */
 
-  template <unsigned N, typename T>
-  ndpoint<N, T>::ndpoint() noexcept
+  template <std::size_t N, typename T>
+  constexpr ndpoint<N, T>::ndpoint() noexcept
   {
-    std::memset(m_values, 0, 2 * sizeof(T));
+    for (int i = 0; i < N; i++)
+      m_values[i] = T();
   }
 
-  template <unsigned N, typename T>
-  ndpoint<N, T>::ndpoint(T x) noexcept
+  template <std::size_t N, typename T>
+  constexpr ndpoint<N, T>::ndpoint(T x) noexcept
     requires(N == 1)
   {
     m_values[0] = x;
   }
 
-  template <unsigned N, typename T>
-  ndpoint<N, T>::ndpoint(T x, T y) noexcept
+  template <std::size_t N, typename T>
+  constexpr ndpoint<N, T>::ndpoint(T x, T y) noexcept
     requires(N == 2)
   {
     m_values[0] = x;
     m_values[1] = y;
   }
 
-  template <unsigned N, typename T>
-  ndpoint<N, T>::ndpoint(const ndpoint& other) noexcept
+  template <std::size_t N, typename T>
+  constexpr ndpoint<N, T>::ndpoint(const ndpoint& other) noexcept
   {
     std::memcpy((void*)other.m_values, m_values, N * sizeof(T));
   }
 
-  template <unsigned N, typename T>
-  ndpoint<N, T>& ndpoint<N, T>::operator=(const ndpoint& other) noexcept
+  template <std::size_t N, typename T>
+  constexpr ndpoint<N, T>& ndpoint<N, T>::operator=(const ndpoint& other) noexcept
   {
     std::memcpy((void*)other.m_values, m_values, N * sizeof(T));
     return *this;
   }
 
-  template <unsigned N, typename T>
-  const T& ndpoint<N, T>::x() const noexcept
+  template <std::size_t N, typename T>
+  constexpr const T& ndpoint<N, T>::x() const noexcept
   {
     return m_values[0];
   }
 
-  template <unsigned N, typename T>
-  const T& ndpoint<N, T>::y() const noexcept
+  template <std::size_t N, typename T>
+  constexpr const T& ndpoint<N, T>::y() const noexcept
     requires(N >= 2)
   {
     return m_values[1];
   }
 
-  template <unsigned N, typename T>
-  T& ndpoint<N, T>::operator[](unsigned i) noexcept
+  template <std::size_t N, typename T>
+  constexpr T& ndpoint<N, T>::operator[](std::size_t i) noexcept
   {
     assert(i < N);
     return m_values[i];
   }
 
-  template <unsigned N, typename T>
-  const T& ndpoint<N, T>::operator[](unsigned i) const noexcept
+  template <std::size_t N, typename T>
+  constexpr const T& ndpoint<N, T>::operator[](std::size_t i) const noexcept
   {
     assert(i < N);
     return m_values[i];
+  }
+
+  template <std::size_t N, typename T>
+  constexpr bool operator==(const ndpoint<N, T>& p, const ndpoint<N, T>& q) noexcept
+  {
+    int i = 0;
+    while (i < N && p[i] == q[i])
+      i++;
+    return i == N;
+  }
+
+  template <std::size_t N, typename T>
+  constexpr bool operator!=(const ndpoint<N, T>& p, const ndpoint<N, T>& q) noexcept
+  {
+    return !(p == q);
   }
 } // namespace zagan

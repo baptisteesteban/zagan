@@ -8,6 +8,7 @@ TEST(Core, Point2d_default)
   ASSERT_EQ(p[0], 0);
   ASSERT_EQ(p[1], 0);
   ASSERT_EQ(p.ndim(), 2);
+  ASSERT_EQ(p, zagan::point2d(0, 0));
 }
 
 TEST(Core, Point2d)
