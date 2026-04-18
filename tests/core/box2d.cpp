@@ -23,3 +23,12 @@ TEST(Core, Box2d_size)
   ASSERT_EQ(domain.shape(0), 3);
   ASSERT_EQ(domain.shape(1), 5);
 }
+
+TEST(Core, Box2d_has)
+{
+  constexpr domain_t domain(3, 5);
+  ASSERT_TRUE(domain.has(point_t{}));
+  ASSERT_TRUE(domain.has(point_t{2, 2}));
+  ASSERT_FALSE(domain.has(point_t{-1, 0}));
+  ASSERT_FALSE(domain.has(point_t{3, 5}));
+}

@@ -24,6 +24,8 @@ namespace zagan
     constexpr const point_t& pmin() const noexcept;
     constexpr const point_t& pmax() const noexcept;
 
+    constexpr bool has(const point_t&) const noexcept;
+
   private:
     point_t m_pmin;
     point_t m_pmax; // Outside
@@ -74,5 +76,14 @@ namespace zagan
   inline constexpr const typename ndbox<N, T>::point_t& ndbox<N, T>::pmax() const noexcept
   {
     return m_pmax;
+  }
+
+  template <std::size_t N, typename T>
+  constexpr bool ndbox<N, T>::has(const typename ndbox<N, T>::point_t& p) const noexcept
+  {
+    int i = 0;
+    while (i < N && p[i] >= m_pmin[i] && p[i] < m_pmax[i])
+      i++;
+    return i == N;
   }
 } // namespace zagan

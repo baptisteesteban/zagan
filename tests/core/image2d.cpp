@@ -1,6 +1,9 @@
+#include <zagan/core/concepts/image_traits.hpp>
 #include <zagan/core/image/image2d.hpp>
 
 #include <gtest/gtest.h>
+
+#include <concepts>
 
 using image_t = zagan::image2d<std::uint8_t>;
 
@@ -41,4 +44,12 @@ TEST(Core, Image2d_domain)
   const auto domain = img.domain();
   ASSERT_EQ(domain.shape(0), 7);
   ASSERT_EQ(domain.shape(1), 3);
+}
+
+TEST(Core, Image2d_concept)
+{
+  static_assert(std::same_as<zagan::image_value_t<image_t>, std::uint8_t>);
+  static_assert(std::same_as<zagan::image_domain_t<image_t>, zagan::box2d>);
+  static_assert(std::same_as<zagan::image_point_t<image_t>, zagan::point2d>);
+  ASSERT_TRUE(true);
 }

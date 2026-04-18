@@ -1,6 +1,6 @@
 #pragma once
 
-#include "zagan/core/domains/box2d.hpp"
+#include <zagan/core/domains/box2d.hpp>
 #include <zagan/core/points/point2d.hpp>
 
 #include <cassert>
@@ -13,6 +13,7 @@ namespace zagan
   class image2d
   {
   public:
+    using value_t  = T;
     using domain_t = box2d;
     using point_t  = domain_t::point_t;
 
