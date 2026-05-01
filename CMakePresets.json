@@ -6,6 +6,7 @@
             "displayName": "Debug",
             "description": "Debug configuration of the Zagan library",
             "binaryDir": "build",
+            "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
@@ -17,6 +18,7 @@
             "displayName": "Release",
             "description": "Release configuration of the Zagan library",
             "binaryDir": "build/Release",
+            "generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
                 "ZAGAN_BUILD_TESTS": "OFF"
