@@ -13,12 +13,16 @@ namespace zagan
       requires(N == 1);
     constexpr ndpoint(T x, T y) noexcept
       requires(N == 2);
+    constexpr ndpoint(T x, T y, T z) noexcept
+      requires(N == 3);
     constexpr ndpoint(const ndpoint&) noexcept;
     constexpr ndpoint& operator=(const ndpoint&) noexcept;
 
     constexpr const T& x() const noexcept;
     constexpr const T& y() const noexcept
       requires(N >= 2);
+    constexpr const T& z() const noexcept
+      requires(N >= 3);
 
     constexpr T&       operator[](std::size_t i) noexcept;
     constexpr const T& operator[](std::size_t i) const noexcept;
@@ -63,6 +67,15 @@ namespace zagan
   }
 
   template <std::size_t N, typename T>
+  constexpr ndpoint<N, T>::ndpoint(T x, T y, T z) noexcept
+    requires(N == 3)
+  {
+    m_values[0] = x;
+    m_values[1] = y;
+    m_values[2] = z;
+  }
+
+  template <std::size_t N, typename T>
   constexpr ndpoint<N, T>::ndpoint(const ndpoint& other) noexcept
   {
     std::memcpy((void*)other.m_values, m_values, N * sizeof(T));
@@ -86,6 +99,13 @@ namespace zagan
     requires(N >= 2)
   {
     return m_values[1];
+  }
+
+  template <std::size_t N, typename T>
+  constexpr const T& ndpoint<N, T>::z() const noexcept
+    requires(N >= 3)
+  {
+    return m_values[2];
   }
 
   template <std::size_t N, typename T>
