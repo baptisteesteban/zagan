@@ -5,3 +5,4 @@
 build
 result
 .idea
+compile_commands.json
