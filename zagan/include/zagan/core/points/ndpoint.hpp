@@ -31,7 +31,7 @@ namespace zagan
     static constexpr std::size_t ndim() noexcept { return N; };
 
   private:
-    int m_values[N];
+    T m_values[N];
   };
 
   template <std::size_t N, typename T>
@@ -78,13 +78,15 @@ namespace zagan
   template <std::size_t N, typename T>
   constexpr ndpoint<N, T>::ndpoint(const ndpoint& other) noexcept
   {
-    std::memcpy((void*)other.m_values, m_values, N * sizeof(T));
+    for (std::size_t i = 0; i < N; ++i)
+      m_values[i] = other.m_values[i];
   }
 
   template <std::size_t N, typename T>
   constexpr ndpoint<N, T>& ndpoint<N, T>::operator=(const ndpoint& other) noexcept
   {
-    std::memcpy((void*)other.m_values, m_values, N * sizeof(T));
+    for (std::size_t i = 0; i < N; ++i)
+      m_values[i] = other.m_values[i];
     return *this;
   }
 
