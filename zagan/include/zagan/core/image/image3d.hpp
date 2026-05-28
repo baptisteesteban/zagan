@@ -46,7 +46,7 @@ namespace zagan
     std::shared_ptr<T[]> m_data;
     int                  m_width;
     int                  m_height;
-    int m_depth;
+    int                  m_depth;
   };
 
   /*
@@ -130,7 +130,8 @@ namespace zagan
   template <typename T>
   typename image3d<T>::domain_t image3d<T>::domain() const noexcept
   {
-    return domain_t{static_cast<std::size_t>(m_width), static_cast<std::size_t>(m_height), static_cast<std::size_t>(m_depth)};
+    return domain_t{static_cast<std::size_t>(m_width), static_cast<std::size_t>(m_height),
+                    static_cast<std::size_t>(m_depth)};
   }
 
   template <typename T>
