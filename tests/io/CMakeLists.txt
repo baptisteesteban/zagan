@@ -1,0 +1,1 @@
+zagan_add_test(stb_io)

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include <zagan/core/domains/box2d.hpp>
 #include <zagan/core/points/point2d.hpp>
 
@@ -38,6 +39,8 @@ namespace zagan
 
     T&       operator()(const point_t&) noexcept;
     const T& operator()(const point_t&) const noexcept;
+
+    void resize(int width, int height);
 
   private:
     std::shared_ptr<T[]> m_data;
@@ -153,5 +156,17 @@ namespace zagan
   inline const T& image2d<T>::operator()(const typename image2d<T>::point_t& p) const noexcept
   {
     return this->operator()(p[0], p[1]);
+  }
+
+  template <typename T>
+  void image2d<T>::resize(int width, int height)
+  {
+    auto data = std::make_shared<T[]>(width * height);
+    if (!data)
+      throw std::runtime_error("Unable to allocate image2d memory");
+
+    m_width  = width;
+    m_height = height;
+    m_data   = data;
   }
 } // namespace zagan
