@@ -6,7 +6,7 @@
       type = "github";
       repo = "nixpkgs";
       owner = "NixOS";
-      ref = "nixos-25.11";
+      ref = "26.05";
     };
 
     flake-parts = {
