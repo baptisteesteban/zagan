@@ -29,6 +29,9 @@ namespace zagan::colors
     T&       blue() noexcept;
     const T& blue() const noexcept;
 
+    bool operator==(const rgb& other) const noexcept;
+    bool operator!=(const rgb& other) const noexcept;
+
   private:
     T m_values[3];
   };
@@ -106,5 +109,17 @@ namespace zagan::colors
   inline const T& rgb<T>::blue() const noexcept
   {
     return this->operator[](2);
+  }
+
+  template <typename T>
+  bool rgb<T>::operator==(const rgb& other) const noexcept
+  {
+    return m_values[0] == other.m_values[0] && m_values[1] == other.m_values[1] && m_values[2] == other.m_values[2];
+  }
+
+  template <typename T>
+  bool rgb<T>::operator!=(const rgb& other) const noexcept
+  {
+    return !(*this != other);
   }
 } // namespace zagan::colors
