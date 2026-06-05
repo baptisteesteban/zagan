@@ -1,11 +1,13 @@
 #pragma once
 
-#include <stdexcept>
 #include <zagan/core/domains/box2d.hpp>
 #include <zagan/core/points/point2d.hpp>
 
 #include <cassert>
+#include <format>
+#include <initializer_list>
 #include <memory>
+#include <stdexcept>
 #include <utility>
 
 namespace zagan
@@ -19,8 +21,10 @@ namespace zagan
     using point_t  = domain_t::point_t;
 
   public:
-    image2d() noexcept;
     image2d(int width, int height);
+    image2d(std::initializer_list<std::initializer_list<T>>);
+
+    image2d() noexcept;
     image2d(const image2d&) noexcept;
     image2d(image2d&&) noexcept;
     image2d& operator=(const image2d&) noexcept;
@@ -51,20 +55,39 @@ namespace zagan
   /*
    * Implementation
    */
+  template <typename T>
+  image2d<T>::image2d(int width, int height)
+    : m_data(std::make_shared<T[]>(width * height))
+    , m_width(width)
+    , m_height(height)
+  {
+  }
+
+  template <typename T>
+  image2d<T>::image2d(std::initializer_list<std::initializer_list<T>> l)
+  {
+    int nrows = l.size();
+    int ncols = l.begin()->size();
+
+    m_width  = ncols;
+    m_height = nrows;
+    m_data   = std::make_shared<T[]>(m_width * m_height);
+
+    int cur = 0;
+    for (auto row : l)
+    {
+      if (row.size() != ncols)
+        throw std::invalid_argument(std::format("Invalid row size (Got {}, expected {})", row.size(), ncols));
+
+      std::copy(row.begin(), row.end(), m_data.get() + cur++ * m_width);
+    }
+  }
 
   template <typename T>
   image2d<T>::image2d() noexcept
     : m_data(nullptr)
     , m_width(0)
     , m_height(0)
-  {
-  }
-
-  template <typename T>
-  image2d<T>::image2d(int width, int height)
-    : m_data(std::make_shared<T[]>(width * height))
-    , m_width(width)
-    , m_height(height)
   {
   }
 
