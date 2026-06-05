@@ -38,6 +38,22 @@ TEST(Core, Image2d_copy)
   ASSERT_EQ(img3.buffer(), img.buffer());
 }
 
+TEST(Core, Image2d_ini_constructor)
+{
+  std::uint8_t values[] = {1, 5, 9, 2, 3, 7};
+
+  image_t img{{1, 5, 9}, {2, 3, 7}};
+  ASSERT_EQ(img.width(), 3);
+  ASSERT_EQ(img.height(), 2);
+
+  int i = 0;
+  for (int y = 0; y < img.height(); y++)
+  {
+    for (int x = 0; x < img.width(); x++)
+      ASSERT_EQ(img(x, y), values[i++]);
+  }
+}
+
 TEST(Core, Image2d_domain)
 {
   image_t    img(7, 3);
