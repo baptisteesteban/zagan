@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstring>
 #include <initializer_list>
+#include <utility>
 
 namespace zagan
 {
@@ -26,13 +27,36 @@ namespace zagan
     constexpr T&       operator[](std::size_t i) noexcept;
     constexpr const T& operator[](std::size_t i) const noexcept;
 
-    constexpr bool operator==(const vec& other) const noexcept;
-    constexpr bool operator!=(const vec& other) const noexcept;
-
   protected:
     T m_values[N];
   };
 
+
+  template <typename T, typename U, std::size_t N>
+  constexpr bool operator==(const vec<U, N>& lhs, const vec<U, N>& rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr bool operator!=(const vec<U, N>& lhs, const vec<U, N>& rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() + std::declval<U>()), N> operator+(const vec<T, N>& lhs,
+                                                                              const vec<U, N>& rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() - std::declval<U>()), N> operator-(const vec<T, N>& lhs,
+                                                                              const vec<U, N>& rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const vec<T, N>& lhs,
+                                                                              const vec<U, N>& rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const vec<T, N>& lhs,
+                                                                              const U&         rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const T&         lhs,
+                                                                              const vec<U, N>& rhs) noexcept;
   /*
    * Implementation
    */
@@ -90,18 +114,65 @@ namespace zagan
     return m_values[i];
   }
 
-  template <typename T, std::size_t N>
-  constexpr bool vec<T, N>::operator==(const vec& other) const noexcept
+  template <typename T, typename U, std::size_t N>
+  constexpr bool operator==(const vec<T, N>& lhs, const vec<U, N>& rhs) noexcept
   {
     int i = 0;
-    while (i < N && m_values[i] == other.m_values[i])
+    while (i < N && lhs[i] == rhs[i])
       i++;
     return i == N;
   }
 
-  template <typename T, std::size_t N>
-  constexpr bool vec<T, N>::operator!=(const vec& other) const noexcept
+  template <typename T, typename U, std::size_t N>
+  constexpr bool operator!=(const vec<T, N>& lhs, const vec<U, N>& rhs) noexcept
   {
-    return !(*this == other);
+    return !(lhs == rhs);
+  }
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() + std::declval<U>()), N> operator+(const vec<T, N>& lhs,
+                                                                              const vec<U, N>& rhs) noexcept
+  {
+    vec<decltype(std::declval<T>() + std::declval<U>()), N> res;
+    for (int i = 0; i < N; i++)
+      res[i] = lhs[i] + rhs[i];
+    return res;
+  }
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() - std::declval<U>()), N> operator-(const vec<T, N>& lhs,
+                                                                              const vec<U, N>& rhs) noexcept
+  {
+    vec<decltype(std::declval<T>() - std::declval<U>()), N> res;
+    for (int i = 0; i < N; i++)
+      res[i] = lhs[i] - rhs[i];
+    return res;
+  }
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const vec<T, N>& lhs,
+                                                                              const vec<U, N>& rhs) noexcept
+  {
+    vec<decltype(std::declval<T>() * std::declval<U>()), N> res;
+    for (int i = 0; i < N; i++)
+      res[i] = lhs[i] * rhs[i];
+    return res;
+  }
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const vec<T, N>& lhs,
+                                                                              const U&         rhs) noexcept
+  {
+    vec<decltype(std::declval<T>() * std::declval<U>()), N> res;
+    for (int i = 0; i < N; i++)
+      res[i] = lhs[i] * rhs;
+    return res;
+  }
+
+  template <typename T, typename U, std::size_t N>
+  inline constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const T&         lhs,
+                                                                                     const vec<U, N>& rhs) noexcept
+  {
+    return rhs * lhs;
   }
 } // namespace zagan
