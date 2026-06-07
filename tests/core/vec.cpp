@@ -45,3 +45,11 @@ TEST(Vec, Operations)
     ASSERT_EQ(res, ref);
   }
 }
+
+TEST(Vec, Format)
+{
+  using vec_t = zagan::vec<float, 3>;
+  vec_t v{10, -38, 2.98};
+  auto  res = std::format("{}", v);
+  ASSERT_EQ(res, "(10, -38, 2.98)");
+}

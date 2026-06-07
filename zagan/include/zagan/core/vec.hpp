@@ -3,7 +3,9 @@
 #include <algorithm>
 #include <cassert>
 #include <cstring>
+#include <format>
 #include <initializer_list>
+#include <string>
 #include <utility>
 
 namespace zagan
@@ -176,3 +178,17 @@ namespace zagan
     return rhs * lhs;
   }
 } // namespace zagan
+
+template <typename T, std::size_t N>
+  requires(std::formattable<T, char>)
+struct std::formatter<zagan::vec<T, N>> : std::formatter<std::string>
+{
+  auto format(const zagan::vec<T, N>& v, std::format_context& ctx) const
+  {
+    std::string res = "(";
+    for (int i = 0; i < N - 1; i++)
+      res += std::format("{}, ", v[i]);
+    res += std::format("{})", v[N - 1]);
+    return std::formatter<std::string>::format(res, ctx);
+  }
+};
