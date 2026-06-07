@@ -59,6 +59,9 @@ namespace zagan
   template <typename T, typename U, std::size_t N>
   constexpr vec<decltype(std::declval<T>() * std::declval<U>()), N> operator*(const T&         lhs,
                                                                               const vec<U, N>& rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
+  constexpr auto dot(const vec<T, N>& lhs, const vec<U, N>& rhs) noexcept;
   /*
    * Implementation
    */
@@ -176,6 +179,18 @@ namespace zagan
                                                                                      const vec<U, N>& rhs) noexcept
   {
     return rhs * lhs;
+  }
+
+  template <typename T, typename U, std::size_t N>
+  constexpr auto dot(const vec<T, N>& lhs, const vec<U, N>& rhs) noexcept
+  {
+    using R = decltype(std::declval<T>() * std::declval<U>());
+
+    R sum{};
+    for (int i = 0; i < N; i++)
+      sum += lhs[i] * rhs[i];
+
+    return sum;
   }
 } // namespace zagan
 

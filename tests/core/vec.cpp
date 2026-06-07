@@ -74,6 +74,14 @@ TEST(Vec, Operations)
     ASSERT_EQ((lmd * v1), ref2);
     ASSERT_EQ((v1 * lmd), ref2);
   }
+
+  // Dot
+  {
+    vec_t v1{2, 5, 2};
+    vec_t v2{3, 6, 1};
+    int   ref = 38;
+    ASSERT_EQ(dot(v1, v2), ref);
+  }
 }
 
 TEST(Vec, Format)
