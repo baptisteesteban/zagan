@@ -4,6 +4,7 @@ project(Zagan)
 option(ZAGAN_BUILD_TESTS "Build the tests for the Zagan library" ON)
 
 add_subdirectory(zagan)
+add_subdirectory(bin)
 
 if (ZAGAN_BUILD_TESTS)
     enable_testing()

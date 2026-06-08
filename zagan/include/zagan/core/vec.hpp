@@ -29,6 +29,14 @@ namespace zagan
     constexpr T&       operator[](std::size_t i) noexcept;
     constexpr const T& operator[](std::size_t i) const noexcept;
 
+    template <typename U>
+    constexpr vec<T, N>& operator+=(const vec<U, N>& other) noexcept
+    {
+      for (int i = 0; i < N; i++)
+        m_values[i] += other[i];
+      return *this;
+    }
+
   protected:
     T m_values[N];
   };
@@ -61,7 +69,12 @@ namespace zagan
                                                                               const vec<U, N>& rhs) noexcept;
 
   template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() / std::declval<U>()), N> operator/(const vec<T, N>& lhs,
+                                                                              const U&         rhs) noexcept;
+
+  template <typename T, typename U, std::size_t N>
   constexpr auto dot(const vec<T, N>& lhs, const vec<U, N>& rhs) noexcept;
+
   /*
    * Implementation
    */
@@ -69,7 +82,7 @@ namespace zagan
   template <typename T, std::size_t N>
   constexpr vec<T, N>::vec() noexcept
   {
-    std::memset(m_values, 0, N * sizeof(T));
+    std::ranges::fill_n(m_values, N, 0);
   }
 
   template <typename T, std::size_t N>
@@ -82,7 +95,7 @@ namespace zagan
   template <typename T, std::size_t N>
   constexpr vec<T, N>::vec(const vec& other) noexcept
   {
-    std::memcpy(m_values, other.m_values, N * sizeof(T));
+    std::ranges::copy_n(other.m_values, N, m_values);
   }
 
   template <typename T, std::size_t N>
@@ -94,7 +107,7 @@ namespace zagan
   template <typename T, std::size_t N>
   constexpr vec<T, N>& vec<T, N>::operator=(const vec& other) noexcept
   {
-    std::memcpy(m_values, other.m_values, N * sizeof(T));
+    std::ranges::copy_n(other.m_values, N, m_values);
     return *this;
   }
 
@@ -179,6 +192,16 @@ namespace zagan
                                                                                      const vec<U, N>& rhs) noexcept
   {
     return rhs * lhs;
+  }
+
+  template <typename T, typename U, std::size_t N>
+  constexpr vec<decltype(std::declval<T>() / std::declval<U>()), N> operator/(const vec<T, N>& lhs,
+                                                                              const U&         rhs) noexcept
+  {
+    vec<decltype(std::declval<T>() / std::declval<U>()), N> res;
+    for (int i = 0; i < N; i++)
+      res[i] = lhs[i] / rhs;
+    return res;
   }
 
   template <typename T, typename U, std::size_t N>
