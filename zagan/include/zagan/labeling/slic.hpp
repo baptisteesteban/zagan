@@ -118,6 +118,8 @@ namespace zagan::labeling
 
         for (int cur = 0; cur < m_K; ++cur)
         {
+          if (area[cur] == 0)
+            area[cur] = 1;
           m_cx[cur] = sum_x[cur] / area[cur];
           m_cy[cur] = sum_y[cur] / area[cur];
           m_cr[cur] = sum_r[cur] / area[cur];
