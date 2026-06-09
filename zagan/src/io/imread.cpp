@@ -25,6 +25,8 @@ namespace zagan::io
       for (int x = 0; x < width; x++)
         img(x, y) = buffer[y * width + x];
     }
+
+    stbi_image_free(buffer);
   }
 
   template <>
@@ -48,5 +50,6 @@ namespace zagan::io
         img(x, y).blue()  = buffer[y * stride + (x * 3) + 2];
       }
     }
+    stbi_image_free(buffer);
   }
 } // namespace zagan::io
