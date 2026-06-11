@@ -17,6 +17,8 @@ namespace zagan
       requires(N == 1);
     constexpr ndbox(std::size_t width, std::size_t height) noexcept
       requires(N == 2);
+    constexpr ndbox(std::size_t width, std::size_t height, std::size_t depth) noexcept
+      requires(N == 3);
     constexpr ndbox(const point_t& pmin, const point_t& pmax) noexcept;
 
     constexpr T shape(std::size_t i) const noexcept;
@@ -48,6 +50,14 @@ namespace zagan
     requires(N == 2)
     : m_pmin()
     , m_pmax(width, height)
+  {
+  }
+
+  template <std::size_t N, typename T>
+  constexpr ndbox<N, T>::ndbox(std::size_t width, std::size_t height, std::size_t depth) noexcept
+    requires(N == 3)
+    : m_pmin()
+    , m_pmax(width, height, depth)
   {
   }
 
