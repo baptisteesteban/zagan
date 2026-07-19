@@ -6,3 +6,5 @@ build
 result
 .idea
 compile_commands.json
+.clangd
+# tests/io/fixtures/*
