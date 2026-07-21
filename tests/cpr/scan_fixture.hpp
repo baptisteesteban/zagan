@@ -3,7 +3,7 @@
 #include <zagan/core/image/image2d.hpp>
 #include <zagan/core/volume/volume.hpp>
 #include <zagan/cpr/centerline.hpp>
-#include <zagan/io/nifti_reader.hpp>
+#include <zagan/io/nifti_io.hpp>
 
 #include <algorithm>
 #include <cstdint>
@@ -65,7 +65,7 @@ namespace zagan::testing
 
     const vec3       spacing(srow_x[0], srow_y[1], srow_z[2]);
     const vec3       origin(srow_x[3], srow_y[3], srow_z[3]);
-    image3d<int16_t> img = io::read_nifti<int16_t>(path);
+    image3d<int16_t> img = io::read_nifti<int16_t>(path).image;
 
     volume<int16_t>   vol(img.width(), img.height(), img.depth(), spacing, origin);
     const std::size_t n = static_cast<std::size_t>(img.width()) * img.height() * img.depth();
