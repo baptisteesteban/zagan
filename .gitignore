@@ -8,3 +8,5 @@ result
 compile_commands.json
 **/*.DS_Store
 data
+.clangd
+# tests/io/fixtures/*
