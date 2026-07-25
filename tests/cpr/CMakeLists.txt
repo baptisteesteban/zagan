@@ -1,0 +1,8 @@
+zagan_add_test(centerline)
+zagan_add_test(straightened)
+zagan_add_test(frame)
+zagan_add_test(cmpr)
+target_link_libraries(test_centerline PRIVATE zagan::cpr)
+target_link_libraries(test_straightened PRIVATE zagan::cpr)
+target_link_libraries(test_frame PRIVATE zagan::cpr)
+target_link_libraries(test_cmpr PRIVATE zagan::cpr)

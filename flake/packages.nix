@@ -4,7 +4,7 @@
       name = "zagan";
       version = "dev";
       src = ../.;
-      nativeBuildInputs = with pkgs; [cmake ninja gcc stb pkg-config];
+      nativeBuildInputs = with pkgs; [cmake ninja gcc stb pkg-config nifticlib];
       configurePhase = ''
         cmake --preset release --install-prefix $out
       '';
